@@ -39,7 +39,8 @@ def check_occurance(row):
     try:
         description = row['description'].lower()
         # technologies = [tech.lower() for tech in row['technology']]
-        title = row["title"].lower().replace("i will do ", "")
+        title = row["title"].lower()
+        # .replace("i will do ", "")
         title_list = title.split(" ")
         counts = Counter(tech.lower() for tech in title_list if tech.lower() in description)
         

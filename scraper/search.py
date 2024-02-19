@@ -15,6 +15,10 @@ class Search:
     
     search_text: str = field(default="")
     
+    
+    def set_search_text(self, search_text):
+        self.search_text = search_text
+    
     def click_on_search_button(self, custom_web_driver: CustomWebDriver):
         search_button_elements_list = custom_web_driver.driver.find_elements(By.CLASS_NAME, "submit-button-icon")
         for elem in search_button_elements_list:
@@ -25,13 +29,14 @@ class Search:
                 continue
         
     
-    def enter_search_text(self, custom_web_driver: CustomWebDriver):
+    def enter_search_text(self, custom_web_driver: CustomWebDriver, clear_input_before_typing: bool = True):
         # locate the search input field
         input_field_elements = custom_web_driver.driver.find_elements(By.CLASS_NAME, "long-placeholder")
         for elem in input_field_elements:
             try:
                 elem.click()
-                with suppress(Exception): elem.clear()
+                if (clear_input_before_typing):
+                    with suppress(Exception): elem.clear()
                 print("Entering search text: ", self.search_text)
                 send_keys_delay_random(controller=elem, keys=self.search_text)
                 print("Entered the search text")
