@@ -17,6 +17,8 @@ from selenium.common.exceptions import (
     ElementNotSelectableException,
     ElementNotVisibleException
 )
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from utils import custom_sleep_func_3
 
@@ -40,33 +42,69 @@ class CustomWebDriver:
         print(f"Element with {locator_type} '{locator}' not found or not interactable: {exception}")
 
 
-    def find_elements_by_locator(self, locator_type: str, locator: str, multiple: bool = False) -> Union[WebElement, List[WebElement]]:
+    def find_elements_by_locator(self, locator_type: str, locator: str, multiple: bool = False, wait_time: int = 0, parent_element: WebElement = None) -> Union[WebElement, List[WebElement]]:
         try:
+            # Wait for the element to be present
+            WebDriverWait(self.driver, wait_time).until(
+                EC.presence_of_element_located((getattr(By, locator_type.upper()), locator))
+            )
+
             if locator_type == "id":
+                
                 if multiple:
-                    return self.driver.find_elements(By.ID, locator)
+                    if parent_element:
+                        return parent_element.find_elements(By.Id, locator)
+                    else:
+                        return self.driver.find_elements(By.ID, locator)
                 else:
-                    return self.driver.find_element(By.ID, locator)
+                    if parent_element:
+                        return parent_element.find_element(By.ID, locator)
+                    else:
+                        return self.driver.find_element(By.ID, locator)
             elif locator_type == "xpath":
                 if multiple:
-                    return self.driver.find_elements(By.XPATH, locator)
+                    if parent_element:
+                        return parent_element.find_elements(By.XPATH, locator)
+                    else:
+                        return self.driver.find_elements(By.XPATH, locator)
                 else:
-                    return self.driver.find_element(By.XPATH, locator)
+                    if parent_element:
+                        return parent_element.find_element(By.XPATH, locator)
+                    else:
+                        return self.driver.find_element(By.XPATH, locator)
             elif locator_type == "class_name":
                 if multiple:
-                    return self.driver.find_elements(By.CLASS_NAME, locator)
+                    if parent_element:
+                        return parent_element.find_elements(By.CLASS_NAME, locator)
+                    else:
+                        return self.driver.find_elements(By.CLASS_NAME, locator)
                 else:
-                    return self.driver.find_element(By.CLASS_NAME, locator)
+                    if parent_element:
+                        return parent_element.find_element(By.CLASS_NAME, locator)
+                    else:
+                        return self.driver.find_element(By.CLASS_NAME, locator)
             elif locator_type == "tag_name":
                 if multiple:
-                    return self.driver.find_elements(By.TAG_NAME, locator)
+                    if parent_element:
+                        return parent_element.find_elements(By.TAG_NAME, locator)
+                    else:
+                        return self.driver.find_elements(By.TAG_NAME, locator)
                 else:
-                    return self.driver.find_element(By.TAG_NAME, locator)
+                    if parent_element:
+                        return parent_element.find_element(By.TAG_NAME, locator)
+                    else:
+                        return self.driver.find_element(By.TAG_NAME, locator)
             elif locator_type == "css_selector":
                 if multiple:
-                    return self.driver.find_elements(By.CSS_SELECTOR, locator)
+                    if parent_element:
+                        return parent_element.find_elements(By.CSS_SELECTOR, locator)
+                    else:
+                        return self.driver.find_elements(By.CSS_SELECTOR, locator)
                 else:
-                    return self.driver.find_element(By.CSS_SELECTOR, locator)
+                    if parent_element:
+                        return parent_element.find_element(By.CSS_SELECTOR, locator)
+                    else:
+                        return self.driver.find_element(By.CSS_SELECTOR, locator)
             else:
                 raise ValueError(f"Unsupported locator type: {locator_type}")
         except (
@@ -81,38 +119,37 @@ class CustomWebDriver:
             self.handle_exception(locator, locator_type, e)
             return [] if multiple else None
 
-
     
-    def find_element_by_id(self, element_id: str) -> WebElement:
-        return self.find_elements_by_locator("id", element_id)
+    def find_element_by_id(self, element_id: str, parent_element: WebElement = None, wait_time: int = 10) -> WebElement:
+        return self.find_elements_by_locator("id", element_id, parent_element, wait_time=wait_time)
 
-    def find_element_by_xpath(self, xpath: str) -> WebElement:
-        return self.find_elements_by_locator("xpath", xpath)
+    def find_element_by_xpath(self, xpath: str, parent_element: WebElement = None, wait_time: int = 10) -> WebElement:
+        return self.find_elements_by_locator("xpath", xpath, parent_element, wait_time=wait_time)
 
-    def find_element_by_class_name(self, class_name) -> WebElement:
-        return self.find_elements_by_locator("class_name", class_name)
-    
-    def find_element_by_tag_name(self, tag_name) -> WebElement:
-        return self.find_elements_by_locator("tag_name", tag_name)
+    def find_element_by_class_name(self, class_name: str, parent_element: WebElement = None, wait_time: int = 10) -> WebElement:
+        return self.find_elements_by_locator("class name", class_name, parent_element, wait_time=wait_time)
 
-    def find_element_by_css_selector(self, css_selector) -> WebElement:
-        return self.find_elements_by_locator("css_selector", css_selector)
-    
+    def find_element_by_tag_name(self, tag_name: str, parent_element: WebElement = None, wait_time: int = 10) -> WebElement:
+        return self.find_elements_by_locator("tag name", tag_name, parent_element, wait_time=wait_time)
 
-    def find_elements_by_id(self, element_id: str) -> list[WebElement]:
-        return self.find_elements_by_locator("id", element_id)
+    def find_element_by_css_selector(self, css_selector: str, parent_element: WebElement = None, wait_time: int = 10) -> WebElement:
+        return self.find_elements_by_locator("css selector", css_selector, parent_element, wait_time=wait_time)
 
-    def find_elements_by_xpath(self, xpath: str) -> list[WebElement]:
-        return self.find_elements_by_locator("xpath", xpath)
+    def find_elements_by_id(self, element_id: str, parent_element: WebElement = None, wait_time: int = 10) -> List[WebElement]:
+        return self.find_elements_by_locator("id", element_id, parent_element, wait_time=wait_time)
 
-    def find_elements_by_class_name(self, class_name: str) -> list[WebElement]:
-        return self.find_elements_by_locator("class_name", class_name)
-    
-    def find_elements_by_tag_name(self, tag_name: str) ->  list[WebElement]:
-        return self.find_elements_by_locator("tag_name", tag_name)
+    def find_elements_by_xpath(self, xpath: str, parent_element: WebElement = None, wait_time: int = 10) -> List[WebElement]:
+        return self.find_elements_by_locator("xpath", xpath, parent_element, wait_time=wait_time)
 
-    def find_elements_by_css_selector(self, css_selector: str) -> list[WebElement]:
-        return self.find_elements_by_locator("css_selector", css_selector)
+    def find_elements_by_class_name(self, class_name: str, parent_element: WebElement = None, wait_time: int = 10) -> List[WebElement]:
+        return self.find_elements_by_locator("class name", class_name, parent_element, wait_time=wait_time)
+
+    def find_elements_by_tag_name(self, tag_name: str, parent_element: WebElement = None, wait_time: int = 10) -> List[WebElement]:
+        return self.find_elements_by_locator("tag name", tag_name, parent_element, wait_time=wait_time)
+
+    def find_elements_by_css_selector(self, css_selector: str, parent_element: WebElement = None, wait_time: int = 10) -> List[WebElement]:
+        return self.find_elements_by_locator("css selector", css_selector, parent_element, wait_time=wait_time)
+
     
 
     def navigate(self, url):
