@@ -54,6 +54,7 @@ def check_occurance(row):
         print(percantage)
         print("\n")
         
+        
         return counts
     except Exception as e:
         return {}
