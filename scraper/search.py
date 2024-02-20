@@ -27,6 +27,16 @@ class Search:
                 print("Successfully clicked on search button")
             except ElementNotInteractableException as e:
                 continue
+            
+    def clear_input(self, custom_web_driver: CustomWebDriver):
+        # locate the search input field
+        input_field_elements = custom_web_driver.driver.find_elements(By.CLASS_NAME, "long-placeholder")
+        for elem in input_field_elements:
+            try:
+                elem.click()
+                elem.clear()
+            except ElementNotInteractableException as e:
+                continue
         
     
     def enter_search_text(self, custom_web_driver: CustomWebDriver, clear_input_before_typing: bool = True):

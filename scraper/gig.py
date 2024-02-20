@@ -70,6 +70,7 @@ class Gig:
     
     def set_gig_data(self, custom_web_driver: CustomWebDriver) -> None:
         custom_web_driver.navigate(self.url)
+        breakpoint()
         self.title.set_title(custom_web_driver=custom_web_driver)
         self.description.set_description(custom_web_driver=custom_web_driver)
         self.technology.set_technology(custom_web_driver=custom_web_driver)
@@ -78,8 +79,6 @@ class Gig:
         self.reviews_count.set_reviews_count(custom_web_driver=custom_web_driver)
         self.pricing_data.set_pricing_data(custom_web_driver=custom_web_driver)
             
-        
-        
-            
+        custom_web_driver.find_element_by_class_name(class_name="gig-tags-container")
 
 

@@ -10,6 +10,7 @@ def analyze_title():
     print("Analyzing Title")
     
     df = pd.read_csv("/Users/ahsanilyas/Documents/FiverrSEO/Data/gigs.csv")
+    df = df[df["reviews_count"] > 300]
     title_list = df["title"].tolist()
     print(title_list)
     # Count keyword occurences

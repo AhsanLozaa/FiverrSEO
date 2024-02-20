@@ -8,10 +8,10 @@ def main():
     
     urls_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/urls.csv"
     gigs_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/gigs.csv"
+    custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
     
     """ Step 02: Use the code snippet below to extract all the required gig data """
     gigs_df = pd.read_csv(gigs_csv_file_path)
-    custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
     urls_df = pd.read_csv(urls_csv_file_path) # read the csv file
     urls_df.drop_duplicates(inplace=True) # drop the duplicates
     gigs_list = [] # list to store the gigs data
@@ -20,9 +20,9 @@ def main():
         # extract the url
         url = row['url']
         # check if the url is present in the gigs_df
-        if (len(gigs_df[gigs_df['url'].isin([url])]) > 0):
-            custom_print("Already available")
-            continue
+        # if (len(gigs_df[gigs_df['url'].isin([url])]) > 0):
+        #     custom_print("Already available")
+        #     continue
             
         # create the gig instance
         gig = Gig(url=url)
