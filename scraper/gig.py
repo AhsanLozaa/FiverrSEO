@@ -11,6 +11,7 @@ from scraper.technique import Technique
 from scraper.reviews_count import ReviewsCount
 from scraper.custom_web_driver import CustomWebDriver
 from scraper.pricing import PlanType
+from scraper.realted_tags import RelatedTag, RelatedTagController
 
 
 @dataclass
@@ -23,6 +24,7 @@ class Gig:
     technique: Technique = field(default_factory=Technique)
     reviews_count: ReviewsCount = field(default_factory=ReviewsCount)
     pricing_data: PricingData = field(default_factory=PricingData)
+    related_tags: List[RelatedTag] = field(default_factory=list)
     
     @classmethod
     def save_gigs_to_csv_file(cls, gigs: List['Gig'], file_path: str, previous_records_df: pd.DataFrame) -> bool:
@@ -63,22 +65,28 @@ class Gig:
             # pricing_data
             'basic': self.pricing_data.get_plan(plan_type=PlanType.BASIC),
             'standard': self.pricing_data.get_plan(plan_type=PlanType.STANDARD),
-            'premium': self.pricing_data.get_plan(plan_type=PlanType.PREMIUM)
+            'premium': self.pricing_data.get_plan(plan_type=PlanType.PREMIUM),
+            # 'related_tag_0': [{related_tags. for related_tags in self.related_tags}]
+            'related_tags': [related_tag.text for related_tag in self.related_tags],
+            'related_tag_links': [related_tag.link for related_tag in self.related_tags]
         }
-
-    
+        
+    def set_related_tags(self, custom_web_driver: CustomWebDriver):
+        related_tags_controller =  RelatedTagController()
+        related_tags_controller.scrape_and_add_tags(custom_web_driver=custom_web_driver)
+        self.related_tags = related_tags_controller.tags
     
     def set_gig_data(self, custom_web_driver: CustomWebDriver) -> None:
         custom_web_driver.navigate(self.url)
-        breakpoint()
         self.title.set_title(custom_web_driver=custom_web_driver)
         self.description.set_description(custom_web_driver=custom_web_driver)
+        self.set_related_tags(custom_web_driver=custom_web_driver)
         self.technology.set_technology(custom_web_driver=custom_web_driver)
         self.information_type.set_information_type(custom_web_driver=custom_web_driver)
         self.technique.set_technique(custom_web_driver=custom_web_driver)
         self.reviews_count.set_reviews_count(custom_web_driver=custom_web_driver)
         self.pricing_data.set_pricing_data(custom_web_driver=custom_web_driver)
             
-        custom_web_driver.find_element_by_class_name(class_name="gig-tags-container")
-
+        gig_tags_container_element = custom_web_driver.find_element_by_class_name(class_name="gig-tags-container")
+        custom_web_driver.find_elements_by_tag_name(tag_name="li", parent_element=gig_tags_container_element)
 
