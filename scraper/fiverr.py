@@ -58,12 +58,13 @@ class Fiverr:
         for key_word in self.key_word_list:
             self.set_search_string(key_word)
             self.search()
-            self.set_urls(limit=30)
+            self.set_urls(limit=40)
             urls_list += self.urls
     
     def extract_and_save_gig_urls(self):
         
         if (self.key_word_list.__len__() <= 0 or self.urls_csv_file_path == ""):
+            # handling missing attributes
             print("key_word_list: ", self.key_word_list)
             print("urls_csv_file_path: ", self.urls_csv_file_path)
             print("Missing attributes at extract_and_save_gig_urls")
