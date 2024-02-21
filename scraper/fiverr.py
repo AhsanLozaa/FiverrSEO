@@ -50,7 +50,7 @@ class Fiverr:
             web_elements = self.driver_instance.driver.find_elements(By.CLASS_NAME, "gig-card-layout")[:limit]
             for element in web_elements:
                 gig_basic_view_data = GigBasicViewData()
-                gig_basic_view_data.set_data_by_scraping(custom_web_driver=self.driver_instance)
+                gig_basic_view_data.set_data_by_scraping(element=element)
                 self.gig_basic_view_data_list.append(gig_basic_view_data)
         except Exception as e:
             self.urls = []

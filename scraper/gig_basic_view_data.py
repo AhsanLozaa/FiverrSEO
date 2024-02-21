@@ -22,9 +22,9 @@ class GigBasicViewData:
         # TODO
         self.reviews_count = 0
         
-    def set_data_by_scraping(self, custom_web_driver: CustomWebDriver) -> None:
-        web_elements = custom_web_driver.find_elements_by_class_name(class_name="gig-card-layout")
-        for element in web_elements:
-            self.scrape_and_set_url(gig_element=element)
-            self.scrape_and_set_reviews_count(gig_element=element)
+    def set_data_by_scraping(self, element: WebElement) -> None:
+        # web_elements = custom_web_driver.find_elements_by_class_name(class_name="gig-card-layout")
+        # for element in web_elements:
+        self.scrape_and_set_url(gig_element=element)
+        self.scrape_and_set_reviews_count(gig_element=element)
     
