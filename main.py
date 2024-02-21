@@ -1,9 +1,10 @@
 import pandas as pd
 import os
+from random import randint
 from scraper.custom_web_driver import CustomWebDriver
 from scraper.fiverr import Fiverr
 from scraper.gig import Gig
-from utils import custom_print, bg_colors, console_multiple_select
+from utils import custom_print, bg_colors, console_multiple_select, custom_sleep_func_3
 
 def execute_scrape_urls(custom_web_driver: CustomWebDriver, urls_csv_file_path: str, key_word_list: list) -> None:
     """ Step 01: Use the below code snippet to extract a list of urls for a given keywords"""
@@ -30,6 +31,7 @@ def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: 
     urls_df = pd.read_csv(urls_csv_file_path) # read the csv file
     urls_df.drop_duplicates(inplace=True) # drop the duplicates
     gigs_list = [] # list to store the gigs data
+    count = 0
     for index, row in urls_df.iterrows():
         custom_print(message=f"Processing -> {str(index)}/{str(len(urls_df))}", color=bg_colors.HL_GREEN)
         # extract the url
@@ -45,6 +47,10 @@ def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: 
         gig.set_gig_data(custom_web_driver=custom_web_driver)
         gigs_list.append(gig)
         Gig.save_gigs_to_csv_file(gigs=gigs_list, file_path=gigs_csv_file_path, previous_records_df=gigs_df)
+        count += 1
+        if count >= 20:
+            custom_sleep_func_3(message=f"Idle after scraping {count} gigs", time_in_seconds=randint(60, 130))
+            count = 0
         
 
 def main():

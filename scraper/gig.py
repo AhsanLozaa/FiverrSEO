@@ -72,9 +72,12 @@ class Gig:
         }
         
     def set_related_tags(self, custom_web_driver: CustomWebDriver):
-        related_tags_controller =  RelatedTagController()
-        related_tags_controller.scrape_and_add_tags(custom_web_driver=custom_web_driver)
-        self.related_tags = related_tags_controller.tags
+        try:
+            related_tags_controller =  RelatedTagController()
+            related_tags_controller.scrape_and_add_tags(custom_web_driver=custom_web_driver)
+            self.related_tags = related_tags_controller.tags
+        except Exception as e:
+            self.related_tags = []
     
     def set_gig_data(self, custom_web_driver: CustomWebDriver) -> None:
         custom_web_driver.navigate(self.url)
