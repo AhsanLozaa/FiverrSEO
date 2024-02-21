@@ -42,7 +42,7 @@ def analyze_related_tags():
         # plt.xticks(rotation=45)
         # plt.show()
     
-analyze_related_tags()
+# analyze_related_tags()
 
 
 

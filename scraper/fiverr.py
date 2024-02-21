@@ -53,8 +53,7 @@ class Fiverr:
                 gig_basic_view_data.set_data_by_scraping(element=element)
                 self.gig_basic_view_data_list.append(gig_basic_view_data)
         except Exception as e:
-            self.urls = []
-            print(e)
+            return
     
     def sort_search_results(self):
         try:
@@ -86,7 +85,8 @@ class Fiverr:
             self.set_search_string(key_word)
             self.search()
             self.sort_search_results()
-            self.set_urls(limit=40)
+            # self.set_urls(limit=40)
+            self.set_gig_basic_view_data_list(limit=100)
             urls_list += self.urls
     
     def extract_and_save_gig_urls(self):
