@@ -4,6 +4,7 @@ from tqdm import tqdm
 import glob
 from contextlib import suppress
 import pandas as pd
+import inquirer
 
 class bg_colors:
     HEADER = '\033[95m'
@@ -106,3 +107,22 @@ def convert_multiple_csv_files_to_one_dataframe(files_list, header=0):
         print(e)
         print("Failed to convert a list to csv files to one dataframe...")
     
+    
+
+def get_input_from_user(to_select_data_dict: dict, message: str):
+
+    choices = to_select_data_dict.keys()
+
+    questions = [
+        inquirer.List('mode',
+        message=message,
+        choices=choices,),
+    ]
+
+    mode = inquirer.prompt(questions)
+
+    user_selected_item = mode["mode"]
+
+    user_selected_acccounts_to_process = user_selected_item
+
+    return to_select_data_dict[user_selected_acccounts_to_process]
