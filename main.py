@@ -3,31 +3,25 @@ import os
 from scraper.custom_web_driver import CustomWebDriver
 from scraper.fiverr import Fiverr
 from scraper.gig import Gig
-from utils import custom_print, bg_colors
+from utils import custom_print, bg_colors, console_multiple_select
 
-def main():
+def execute_scrape_urls(custom_web_driver: CustomWebDriver, urls_csv_file_path: str) -> None:
+    """ Step 01: Use the below code snippet to extract a list of urls for a given keywords"""
+    key_word_list = [
+        'flutter',
+        'cross platform',
+        'mobile application',
+    ]
     
-    urls_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/mobile-application/urls.csv"
-    gigs_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/mobile-application/gigs.csv"
-    custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
+    fiverr = Fiverr(
+        driver_instance=custom_web_driver, 
+        urls_csv_file_path=urls_csv_file_path,
+        key_word_list=key_word_list,
+    )
+    fiverr.extract_and_save_gig_urls()
     
-    
-    # """ Step 01: Use the below code snippet to extract a list of urls for a given keywords"""
-    # key_word_list = [
-    #     'flutter',
-    #     'cross platform',
-    #     'mobile application',
-    # ]
-    
-    # fiverr = Fiverr(
-    #     driver_instance=custom_web_driver, 
-    #     urls_csv_file_path=urls_csv_file_path,
-    #     key_word_list=key_word_list,
-    # )
-    # fiverr.extract_and_save_gig_urls()
-    
-    # return
-    
+
+def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: str, gigs_csv_file_path: str) -> None:
     """ Step 02: Use the code snippet below to extract all the required gig data """
     gigs_df = pd.DataFrame()
     if (os.path.exists(gigs_csv_file_path)):
@@ -52,15 +46,43 @@ def main():
         gigs_list.append(gig)
         Gig.save_gigs_to_csv_file(gigs=gigs_list, file_path=gigs_csv_file_path, previous_records_df=gigs_df)
         
+
+def main():
     
+    
+    niche = str(input("Enter the niche: "))
+    
+    if not niche or niche == "":
+        custom_print(message="Invalid niche", color=bg_colors.HL_RED)
+        return
+    
+    
+    base_data_dir_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data"
+    niche_folder_path = os.path.join(base_data_dir_path, niche)
+    os.makedirs(niche_folder_path, exist_ok=True)
+    urls_csv_file_path = os.path.join(niche_folder_path, "urls.csv")
+    gigs_csv_file_path = os.path.join(niche_folder_path, "gigs.csv")
+    # urls_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/mobile-application/urls.csv"
+    # gigs_csv_file_path = "/Users/ahsanilyas/Documents/FiverrSEO/Data/mobile-application/gigs.csv"
+    
+    
+    selection_menu = console_multiple_select(
+        options=[
+            "Scrape urls by keywords list",
+            "Scrape gigs by urls.csv file"
+        ]
+    )
+    selections_list = list(selection_menu['chosen_menu_entries'])
+
+    if 'Scrape urls by keywords list' in selections_list or 'Scrape gigs by urls.csv file' in selections_list:
+        custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
+        
+        if 'Scrape urls by keywords list' in selections_list:
+            execute_scrape_urls(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path)
+        
+        if 'Scrape gigs by urls.csv file' in selections_list:
+            execute_scrape_gigs(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path, gigs_csv_file_path=gigs_csv_file_path)
+
 
 if __name__ == "__main__":
     main()
-    
-
-# "https://www.fiverr.com/ultra_scrape/do-web-scraping-data-mining-any-website-in-just-few-hours?context_referrer=search_gigs_with_recommendations_row_3&source=top-bar&ref_ctx_id=a1d08c710c024716b8b7673a82139c39&pckg_id=1&pos=1&context_type=auto&funnel=a1d08c710c024716b8b7673a82139c39&seller_online=true&imp_id=0aa07925-f8e4-4b4d-b57a-017e2548568c"
-# "https://www.fiverr.com/mlordjames/scrape-products-hotels-social-media-businesses-in-24hrs?context_referrer=search_gigs_with_recommendations_row_3&source=top-bar&ref_ctx_id=a1d08c710c024716b8b7673a82139c39&pckg_id=1&pos=2&context_type=auto&funnel=a1d08c710c024716b8b7673a82139c39&imp_id=114ceabe-aa07-400e-82a6-d41ec1731210",
-
-# ""
-
-# write the code to save the 
