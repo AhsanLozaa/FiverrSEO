@@ -1,25 +1,15 @@
 from dataclasses import dataclass, field
 from scraper.custom_web_driver import CustomWebDriver
 from scraper.search import Search
+from scraper.gig_basic_view_data import GigBasicViewData
 
 from typing import List
 import pandas as pd
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 import time
 
-@dataclass
-class GigBasicViewData:
-    url: str
-    reviews_count: int = field(default=0)
-    
-    def set_url(self, custom_web_driver: CustomWebDriver):
-        self.url = ""
-    
-    def set_reviews_count(self, custom_web_driver: CustomWebDriver):
-        self.reviews_count = 0
-    
-    
 @dataclass
 class Fiverr:
     # url: str
@@ -28,7 +18,7 @@ class Fiverr:
     s: Search = field(default_factory=Search)
     # gigs: list[Gig] = field(default_factory=list)
     urls: list[str] = field(default_factory=list)
-    gig_basic_view_data: list[GigBasicViewData] = field(default_factory=list)
+    gig_basic_view_data_list: list[GigBasicViewData] = field(default_factory=list)
     
     
     key_word_list: list[str] = field(default_factory=list)
@@ -51,6 +41,17 @@ class Fiverr:
             for element in web_elements:
                 url = element.find_elements(By.TAG_NAME, "a")[0].get_attribute("href")
                 self.urls.append(url)
+        except Exception as e:
+            self.urls = []
+            print(e)
+            
+    def set_gig_basic_view_data_list(self, limit: int = 100) -> None:
+        try:
+            web_elements = self.driver_instance.driver.find_elements(By.CLASS_NAME, "gig-card-layout")[:limit]
+            for element in web_elements:
+                gig_basic_view_data = GigBasicViewData()
+                gig_basic_view_data.set_data_by_scraping(custom_web_driver=self.driver_instance)
+                self.gig_basic_view_data_list.append(gig_basic_view_data)
         except Exception as e:
             self.urls = []
             print(e)
@@ -79,7 +80,6 @@ class Fiverr:
             print(e)
             print("Failed to save the urls in ", csv_file_path)
     
-    # @classmethod
     def extract_gig_urls(self):
         urls_list = []
         for key_word in self.key_word_list:
