@@ -8,6 +8,5 @@ def main():
        root_data_folder_path="/Users/ahsanilyas/Documents/FiverrSEO/Data" 
     )
     
-
 if __name__ == "__main__":
     main()

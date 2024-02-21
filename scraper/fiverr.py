@@ -69,9 +69,13 @@ class Fiverr:
         except Exception as e:
             print("Failed to sort search results")
     
+    # TODO - Make the REVELVANT CHANGES HERE
     def save_gig_urls_to_csv(self, csv_file_path: str):
         try:
             print("Saving the urls in ", csv_file_path)
+            [item.__dict__ for item in self.gig_basic_view_data_list]
+            df = pd.DataFrame([item.__dict__ for item in self.gig_basic_view_data_list])
+            breakpoint()
             df = pd.DataFrame(columns=["url"], data=self.urls)
             df.to_csv(csv_file_path, index=False)
             print("Successfully saved the urls in ", csv_file_path)
@@ -88,6 +92,7 @@ class Fiverr:
             # self.set_urls(limit=40)
             self.set_gig_basic_view_data_list(limit=100)
             urls_list += self.urls
+            self.save_gig_urls_to_csv(csv_file_path=self.urls_csv_file_path)
     
     def extract_and_save_gig_urls(self):
         

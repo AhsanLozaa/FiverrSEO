@@ -85,7 +85,8 @@ def main():
         
         if 'Scrape urls by keywords list' in selections_list:
             # key_word_list = input("Please enter keywords (comma seperated)")
-            key_word_list = ["fiverr seo", "fiverr gig promotion", "fiverr gig image", "fiverr gig thumbnail", "fiverr gig description", "fiverr gig video", "gig seo", "gig description", "fiverr gig seo"]
+            # key_word_list = ["fiverr seo", "fiverr gig promotion", "fiverr gig image", "fiverr gig thumbnail", "fiverr gig description", "fiverr gig video", "gig seo", "gig description", "fiverr gig seo"]
+            key_word_list = ["python csv", "data cleaning", "data automation", "python excel", "python pdf", "python file handling", "python large file handling", "csv file processing", "numpy", "pandas", "python json"]
             execute_scrape_urls(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path, key_word_list=key_word_list)
         
         if 'Scrape gigs by urls.csv file' in selections_list:
