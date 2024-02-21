@@ -30,12 +30,17 @@ class SearchSuggestion:
     def set_base_word(self, base_word) -> None:
         self.base_word = base_word        
     
-    def scrape_and_set_search_suggestions(self, custom_web_driver: CustomWebDriver):
+    def scrape_and_set_search_suggestions(self, custom_web_driver: CustomWebDriver, enable_variation_search: bool = True):
         """ 
         NOTE Don't use this function where threading is implemented, 
              it can cause unexpected errors, only use this for single instance running
         """
-        variations = self.generate_variations()
+        
+        if (enable_variation_search):
+            variations = self.generate_variations()
+        else:
+            variations = [self.base_word]
+            
         search = Search()
         
         empty_li_tags_occurance = 0

@@ -5,6 +5,7 @@ from scraper.search import Search
 import pandas as pd
 
 from selenium.webdriver.common.by import By
+import time
 
 
 @dataclass
@@ -42,6 +43,20 @@ class Fiverr:
             self.urls = []
             print(e)
     
+    def sort_search_results(self):
+        try:
+            # write the code here to sort the saerch result by best selling
+            sort_by_button = self.driver_instance.find_element_by_class_name(class_name="sort-by-wrapper")
+            sort_by_button.click()
+            time.sleep(1.5)
+            sort_by_options = self.driver_instance.find_elements_by_class_name(class_name="label-item")
+            for sort_by_option in sort_by_options:
+                if (sort_by_option.text.lower() == "best selling"):
+                    sort_by_option.click()
+                    return
+        except Exception as e:
+            print("Failed to sort search results")
+    
     def save_gig_urls_to_csv(self, csv_file_path: str):
         try:
             print("Saving the urls in ", csv_file_path)
@@ -58,6 +73,7 @@ class Fiverr:
         for key_word in self.key_word_list:
             self.set_search_string(key_word)
             self.search()
+            self.sort_search_results()
             self.set_urls(limit=40)
             urls_list += self.urls
     

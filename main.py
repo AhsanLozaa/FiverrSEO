@@ -5,13 +5,13 @@ from scraper.fiverr import Fiverr
 from scraper.gig import Gig
 from utils import custom_print, bg_colors, console_multiple_select
 
-def execute_scrape_urls(custom_web_driver: CustomWebDriver, urls_csv_file_path: str) -> None:
+def execute_scrape_urls(custom_web_driver: CustomWebDriver, urls_csv_file_path: str, key_word_list: list) -> None:
     """ Step 01: Use the below code snippet to extract a list of urls for a given keywords"""
-    key_word_list = [
-        'flutter',
-        'cross platform',
-        'mobile application',
-    ]
+    # key_word_list = [
+    #     'flutter',
+    #     'cross platform',
+    #     'mobile application',
+    # ]
     
     fiverr = Fiverr(
         driver_instance=custom_web_driver, 
@@ -49,7 +49,6 @@ def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: 
 
 def main():
     
-    
     niche = str(input("Enter the niche: "))
     
     if not niche or niche == "":
@@ -76,9 +75,12 @@ def main():
 
     if 'Scrape urls by keywords list' in selections_list or 'Scrape gigs by urls.csv file' in selections_list:
         custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
+        # custom_web_driver = None
         
         if 'Scrape urls by keywords list' in selections_list:
-            execute_scrape_urls(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path)
+            # key_word_list = input("Please enter keywords (comma seperated)")
+            key_word_list = ["fiverr seo", "fiverr gig promotion", "fiverr gig image", "fiverr gig thumbnail", "fiverr gig description", "fiverr gig video", "gig seo", "gig description", "fiverr gig seo"]
+            execute_scrape_urls(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path, key_word_list=key_word_list)
         
         if 'Scrape gigs by urls.csv file' in selections_list:
             execute_scrape_gigs(custom_web_driver=custom_web_driver, urls_csv_file_path=urls_csv_file_path, gigs_csv_file_path=gigs_csv_file_path)
