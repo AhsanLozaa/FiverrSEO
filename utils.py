@@ -5,6 +5,8 @@ import glob
 from contextlib import suppress
 import pandas as pd
 import inquirer
+from simple_term_menu import TerminalMenu
+
 
 class bg_colors:
     HEADER = '\033[95m'
@@ -126,3 +128,28 @@ def get_input_from_user(to_select_data_dict: dict, message: str):
     user_selected_acccounts_to_process = user_selected_item
 
     return to_select_data_dict[user_selected_acccounts_to_process]
+
+
+
+def console_multiple_select(options: list=[], preselected_entries: list=[]):
+    
+    to_return_data = {
+        "menu_entry_indices": None,
+        "chosen_menu_entries": None
+    }
+    
+    terminal_menu = TerminalMenu(
+        options,
+        multi_select=True,
+        show_multi_select_hint=True,
+        preselected_entries=preselected_entries
+        
+    )
+    
+    
+    menu_entry_indices = terminal_menu.show()
+    chosen_menu_entries = terminal_menu.chosen_menu_entries
+    to_return_data['menu_entry_indices'] = menu_entry_indices
+    to_return_data['chosen_menu_entries'] = chosen_menu_entries
+    
+    return to_return_data
