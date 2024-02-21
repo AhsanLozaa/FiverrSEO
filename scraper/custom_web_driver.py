@@ -213,10 +213,8 @@ class CustomWebDriver:
         if self.un_detectable:
             self.create_undetectable_chrome_driver()
         elif(self.port != ""):
-            print("fa kmsf askf aksf safkask f")
             self.create_undetectable_chrome_driver(chrome_driver_path="/Users/ahsanilyas/Documents/FiverrSEO/scraper/chromedriver", port=self.port)
         # Call create_web_driver after the instance is initialized
         else:
-            print("fa kmsf askf aksf safkask f")
             self.create_web_driver()
 
