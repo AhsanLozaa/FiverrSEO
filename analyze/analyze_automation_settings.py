@@ -61,7 +61,10 @@ class AnalyzeAutomationSettings:
             
     def execute_analyze(self):
         if "Related Tags" in self.selected_analytic_types:
-            analyze_related_tags(gigs_data_frame=self.gigs_df)
+            if len(self.gigs_df) > 0:
+                analyze_related_tags(gigs_data_frame=self.gigs_df)
+            else:
+                custom_print("Data frame is empty")
             
     def __post_init__(self):
         self.set_data_directories()

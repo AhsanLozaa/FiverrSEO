@@ -8,8 +8,6 @@ def main():
        root_data_folder_path="/Users/ahsanilyas/Documents/FiverrSEO/Data" 
     )
     
-    print(analyze_automation_settings.selected_analytic_types)
-
 
 if __name__ == "__main__":
     main()
