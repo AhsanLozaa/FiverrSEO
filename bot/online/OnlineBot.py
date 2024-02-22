@@ -13,6 +13,6 @@
 #             if tag.text.lower() == "dashboard":
 #                 print("Clicking on dashboard")
 
-# # ! IMPORTANT
-# # NOTE: do the balance coding from here, please check the constants.py file
-# # NOTE: Also try to move the attribute(class name, tag_name or whatever) and text(text inside the element) to a different class, so its easy to understand that the element is dependent on each other attribute and text
+# ! IMPORTANT
+# NOTE: do the balance coding from here, please check the constants.py file
+# NOTE: Also try to move the attribute(class name, tag_name or whatever) and text(text inside the element) to a different class, so its easy to understand that the element is dependent on each other attribute and text
