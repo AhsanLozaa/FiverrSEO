@@ -1,10 +1,18 @@
 import os
 from dataclasses import dataclass, field
 import pandas as pd
+from enum import Enum
 
 from utils import custom_print, bg_colors, get_input_from_user, console_multiple_select
 
 from analyze.related_tags import analyze_related_tags
+from analyze.information_type import analyze_information_types
+
+class AnalyticType(Enum):
+    RELATED_TAGS = "Related Tags"
+    INFORMATION_TYPES = "Information Types"
+
+
 
 @dataclass
 class AnalyzeAutomationSettings:
@@ -20,7 +28,7 @@ class AnalyzeAutomationSettings:
     gigs_file_path: str = field(default="")
     urls_df: pd.DataFrame = field(default_factory=pd.DataFrame)
     gigs_df: pd.DataFrame = field(default_factory=pd.DataFrame)
-    selected_analytic_types: list[str] = field(default_factory=list)
+    selected_analytic_types: list[AnalyticType] = field(default_factory=list)
     filter_by_reviews_count_value: int = field(default=0)
     
     def set_data_directories(self):
@@ -40,12 +48,20 @@ class AnalyzeAutomationSettings:
         selected_data_directory = get_input_from_user(to_select_data_dict=to_select_data_dict, message="Please select a niche")
         self.selected_data_directory = selected_data_directory
     
-    def show_process_selection_prompt(self):
+    def show_analytic_types_selection_prompt(self):
         """
         Show prompt to select analytic types to execute.
         """
         selections = console_multiple_select(options=["Related Tags"])
-        self.selected_analytic_types = list(selections['chosen_menu_entries'])
+        types_list = list(selections['chosen_menu_entries'])
+        self.selected_analytic_types = [AnalyticType[type_str.replace(" ", "_").upper()] for type_str in types_list]
+
+    
+    def show_review_count_prompt(self):
+        """
+        Show prompt to get the reviews count to filter the data frame
+        """
+        self.filter_by_reviews_count_value = int(input("Enter reviews count: "))
         
         
     def set_urls_file_path(self):
@@ -90,9 +106,15 @@ class AnalyzeAutomationSettings:
         """
         Execute the selected analytic types.
         """
-        if "Related Tags" in self.selected_analytic_types:
+        if AnalyticType.RELATED_TAGS in self.selected_analytic_types:
             if len(self.gigs_df) > 0:
                 analyze_related_tags(gigs_data_frame=self.gigs_df)
+            else:
+                custom_print("Data frame is empty")
+        
+        if AnalyticType.INFORMATION_TYPES in self.selected_analytic_types:
+            if len(self.gigs_df) > 0:
+                analyze_information_types(gigs_data_frame=self.gigs_df)
             else:
                 custom_print("Data frame is empty")
             
@@ -102,7 +124,8 @@ class AnalyzeAutomationSettings:
         """
         self.set_data_directories()
         self.show_niche_selection_propmt()
-        self.show_process_selection_prompt()
+        self.show_analytic_types_selection_prompt()
+        self.show_review_count_prompt()
         self.set_urls_file_path()
         self.set_gigs_file_path()
         self.set_urls_df()

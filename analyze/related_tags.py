@@ -18,7 +18,6 @@ def analyze_related_tags(gigs_data_frame: pd.DataFrame):
     for i in range(1, 2):
         gigs_data_frame.dropna(subset=['related_tags'], inplace=True)
         gigs_data_frame['related_tags'] = gigs_data_frame['related_tags'].apply(ast.literal_eval)
-        gigs_data_frame = gigs_data_frame[gigs_data_frame["reviews_count"] > 100]
         realted_tags_list = gigs_data_frame['related_tags'].explode().tolist()
         filtered_realted_tags_list = [item for item in realted_tags_list if pd.notnull(item) and item]
         item_counter = Counter(item.lower() for item in filtered_realted_tags_list)
