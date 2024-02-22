@@ -96,7 +96,6 @@ class AnalyzeAutomationSettings:
         """
         Post initialization method to set up the analysis settings.
         """
-
         self.set_data_directories()
         self.show_niche_selection_propmt()
         self.show_process_selection_prompt()
