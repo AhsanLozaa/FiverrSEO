@@ -20,8 +20,8 @@ class AnalyzeAutomationSettings:
     gigs_file_path: str = field(default="")
     urls_df: pd.DataFrame = field(default_factory=pd.DataFrame)
     gigs_df: pd.DataFrame = field(default_factory=pd.DataFrame)
-    
     selected_analytic_types: list[str] = field(default_factory=list)
+    filter_by_reviews_count_value: int = field(default=0)
     
     def set_data_directories(self):
         """
@@ -80,7 +80,11 @@ class AnalyzeAutomationSettings:
         Read the gigs CSV file and set the gigs data frame.
         """
         if os.path.exists(self.gigs_file_path):
-            self.gigs_df = pd.read_csv(self.gigs_file_path)
+            if self.filter_by_reviews_count_value > 0:
+                gigs_df = pd.read_csv(self.gigs_file_path)
+                self.gigs_df = gigs_df[gigs_df['reviews_count'] > self.filter_by_reviews_count_value]
+            else:
+                self.gigs_df = pd.read_csv(self.gigs_file_path)
             
     def execute_analyze(self):
         """
