@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 import pandas as pd
 from enum import Enum
 
-from utils import custom_print, bg_colors, get_input_from_user, console_multiple_select
+from utils import custom_print, get_input_from_user, console_multiple_select
 
 from analyze.related_tags import analyze_related_tags
 from analyze.information_type import analyze_information_types
@@ -11,8 +11,6 @@ from analyze.information_type import analyze_information_types
 class AnalyticType(Enum):
     RELATED_TAGS = "Related Tags"
     INFORMATION_TYPES = "Information Types"
-
-
 
 @dataclass
 class AnalyzeAutomationSettings:
@@ -52,7 +50,8 @@ class AnalyzeAutomationSettings:
         """
         Show prompt to select analytic types to execute.
         """
-        selections = console_multiple_select(options=["Related Tags"])
+        options = [x.value for x in list(AnalyticType)]
+        selections = console_multiple_select(options=options)
         types_list = list(selections['chosen_menu_entries'])
         self.selected_analytic_types = [AnalyticType[type_str.replace(" ", "_").upper()] for type_str in types_list]
 
