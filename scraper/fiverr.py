@@ -75,8 +75,6 @@ class Fiverr:
             print("Saving the urls in ", csv_file_path)
             [item.__dict__ for item in self.gig_basic_view_data_list]
             df = pd.DataFrame([item.__dict__ for item in self.gig_basic_view_data_list])
-            breakpoint()
-            df = pd.DataFrame(columns=["url"], data=self.urls)
             df.to_csv(csv_file_path, index=False)
             print("Successfully saved the urls in ", csv_file_path)
         except Exception as e:

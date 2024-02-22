@@ -30,6 +30,7 @@ def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: 
         
     urls_df = pd.read_csv(urls_csv_file_path) # read the csv file
     urls_df.drop_duplicates(inplace=True) # drop the duplicates
+    urls_df = urls_df[urls_df["reviews_count"] > 0]
     gigs_list = [] # list to store the gigs data
     count = 0
     for index, row in urls_df.iterrows():
@@ -48,8 +49,8 @@ def execute_scrape_gigs(custom_web_driver: CustomWebDriver, urls_csv_file_path: 
         gigs_list.append(gig)
         Gig.save_gigs_to_csv_file(gigs=gigs_list, file_path=gigs_csv_file_path, previous_records_df=gigs_df)
         count += 1
-        if count >= 20:
-            custom_sleep_func_3(message=f"Idle after scraping {count} gigs", time_in_seconds=randint(60, 130))
+        if count >= 5:
+            custom_sleep_func_3(message=f"Idle after scraping {count} gigs", time_in_seconds=randint(240, 300))
             count = 0
         
 

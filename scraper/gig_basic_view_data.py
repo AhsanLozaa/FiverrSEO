@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from selenium.webdriver.remote.webelement import WebElement
 from scraper.custom_web_driver import CustomWebDriver
 from selenium.webdriver.common.by import By
+import re
 
 @dataclass
 class GigBasicViewData:
@@ -19,8 +20,14 @@ class GigBasicViewData:
         self._set_url(url=url)
         
     def scrape_and_set_reviews_count(self, gig_element: WebElement) -> None:
-        # TODO
-        self.reviews_count = 0
+        try:
+            self.reviews_count = 0
+            reviews_count = gig_element.find_element(By.CLASS_NAME, "rating-count-number").text
+            self.reviews_count = int(''.join(re.findall(r'\d', reviews_count)))
+            print("self.reviews_count: ", str(self.reviews_count))
+        except Exception as e:
+            print("self.reviews_count: ", str(self.reviews_count))
+            return
         
     def set_data_by_scraping(self, element: WebElement) -> None:
         # web_elements = custom_web_driver.find_elements_by_class_name(class_name="gig-card-layout")

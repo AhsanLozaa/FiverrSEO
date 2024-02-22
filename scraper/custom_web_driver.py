@@ -208,6 +208,39 @@ class CustomWebDriver:
         except Exception as e:
             print(e)
     
+    
+    # def make_a_scroll(driver: any, type: str = '', web_element: str='', try_scroll_for: int=1):
+    #     # method scroll modal window (followers modal window)
+    #     # params driver
+    #     # params type
+        
+    #     # random_sleep(2, 4)  # Going idle for a few seconds
+    #     # random_sleep(1, 2)  # Going idle for a few seconds
+
+    #     if (type == 'modal_window_scroll'): # modal window scroll
+    #         custom_print('Scrolling modal window.', bg_colors.OKBLUE)
+    #         WebDriverWait(driver, 10).until(lambda d: d.find_element(By.CSS_SELECTOR, 'div[role="dialog"]'))
+    #         driver.execute_script('''var fDialog = document.querySelector('div[role="dialog"] .isgrP');fDialog.scrollTop = fDialog.scrollHeight''')
+    #         random_sleep(3,4)
+
+    #     if (type == 'main_window_scroll'):  # main window scroll
+    #         custom_print('Scrolling main window', bg_colors.OKBLUE)
+    #         driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+    #         random_sleep(1, 2)
+            
+        
+    #     if (type == 'make_scroll_by_web_element'):
+    #         custom_print('Scrolling window', bg_colors.OKBLUE)
+    #         driver.execute_script("arguments[0].scrollIntoView()",web_element)
+    #         random_sleep(3, 4)
+            
+    #     if (type == "make_smooth_scroll_by_web_element"):
+    #         for i in range(1, try_scroll_for+1):
+    #             custom_print(f'Scrolling window (try->{i}/{try_scroll_for})', bg_colors.OKBLUE)
+    #             driver.execute_script("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'end' });", web_element)
+    #             random_sleep(2, 3)
+                
+                
     def __post_init__(self):
         
         if self.un_detectable:
