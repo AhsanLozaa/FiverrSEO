@@ -5,7 +5,7 @@ from utils import custom_sleep_func_3
 
 def main():
     
-    custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
+    custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/fathunus")
     custom_web_driver.navigate(url="https://fiverr.com/", idle=3)
     # base_words_list = ["web scraping", "data mining", "web automation", "selenium", "python selenium"]
     # base_words_list = ["fiverr", "seo", "gig", "fiverr seo"]

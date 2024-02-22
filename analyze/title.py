@@ -1,17 +1,13 @@
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 from collections import Counter
 from nltk.corpus import stopwords
 import nltk
 nltk.download('stopwords')
 
-def analyze_title():
+def analyze_title(gigs_data_frame: pd.DataFrame):
     print("Analyzing Title")
-    
-    df = pd.read_csv("/Users/ahsanilyas/Documents/FiverrSEO/Data/gigs.csv")
-    df = df[df["reviews_count"] > 300]
-    title_list = df["title"].tolist()
+    title_list = gigs_data_frame["title"].tolist()
     print(title_list)
     # Count keyword occurences
     word_counter = Counter(word for text in title_list for word in text.lower().split())
@@ -28,5 +24,5 @@ def analyze_title():
     plt.show()
     print(filtered_counter)
     
-analyze_title()
+# analyze_title()
 

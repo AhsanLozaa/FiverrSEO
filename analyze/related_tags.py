@@ -25,10 +25,10 @@ def analyze_related_tags(gigs_data_frame: pd.DataFrame):
         sorted_filtered_counter = dict(sorted(item_counter.items(), key=lambda item: item[1], reverse=True))
         sorted_filtered_counter = dict(sorted(item_counter.items(), key=lambda item: item[1], reverse=True))
         
-        print(sorted_filtered_counter)
-        # for key, value in itertools.islice(sorted_filtered_counter.items(), 40):
+        # print(sorted_filtered_counter)
+        for key, value in itertools.islice(sorted_filtered_counter.items(), 40):
         #     print("key: ", key, ",  value: ", str(value), " | ", end="")
-            # print(key)
+            print(key)
         
         # print()
 

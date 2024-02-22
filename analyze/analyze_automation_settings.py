@@ -2,15 +2,20 @@ import os
 from dataclasses import dataclass, field
 import pandas as pd
 from enum import Enum
+from contextlib import suppress
 
 from utils import custom_print, get_input_from_user, console_multiple_select
 
 from analyze.related_tags import analyze_related_tags
 from analyze.information_type import analyze_information_types
+from analyze.title import analyze_title
+from analyze.title_description import analyze_title_description
 
 class AnalyticType(Enum):
+    TITLE = "Title"
     RELATED_TAGS = "Related Tags"
     INFORMATION_TYPES = "Information Types"
+    TITLE_DESCRIPTION = "Title Description"
 
 @dataclass
 class AnalyzeAutomationSettings:
@@ -60,7 +65,8 @@ class AnalyzeAutomationSettings:
         """
         Show prompt to get the reviews count to filter the data frame
         """
-        self.filter_by_reviews_count_value = int(input("Enter reviews count: "))
+        with suppress(Exception): self.filter_by_reviews_count_value = int(input("Enter reviews count: "))
+            
         
         
     def set_urls_file_path(self):
@@ -105,6 +111,12 @@ class AnalyzeAutomationSettings:
         """
         Execute the selected analytic types.
         """
+        if AnalyticType.TITLE in self.selected_analytic_types:
+            if len(self.gigs_df) > 0:
+                analyze_title(gigs_data_frame=self.gigs_df)
+            else:
+                custom_print("Data frame is empty")
+                
         if AnalyticType.RELATED_TAGS in self.selected_analytic_types:
             if len(self.gigs_df) > 0:
                 analyze_related_tags(gigs_data_frame=self.gigs_df)
@@ -114,6 +126,12 @@ class AnalyzeAutomationSettings:
         if AnalyticType.INFORMATION_TYPES in self.selected_analytic_types:
             if len(self.gigs_df) > 0:
                 analyze_information_types(gigs_data_frame=self.gigs_df)
+            else:
+                custom_print("Data frame is empty")
+        
+        if AnalyticType.TITLE_DESCRIPTION in self.selected_analytic_types:
+            if len(self.gigs_df) > 0:
+                analyze_title_description(gigs_data_frame=self.gigs_df)
             else:
                 custom_print("Data frame is empty")
             

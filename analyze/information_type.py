@@ -19,8 +19,9 @@ def analyze_information_types(gigs_data_frame: pd.DataFrame):
     item_counter = Counter(item.lower() for item in filtered_information_type_list)
     unique_items = list(set(filtered_information_type_list))
     sorted_filtered_counter = dict(sorted(item_counter.items(), key=lambda item: item[1], reverse=True))
-    sorted_filtered_counter = dict(sorted(item_counter.items(), key=lambda item: item[1], reverse=True))
     
+    print(sorted_filtered_counter)
+    return
     # Plotting
     plt.bar(sorted_filtered_counter.keys(), sorted_filtered_counter.values())
     plt.xlabel('Words')

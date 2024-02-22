@@ -81,7 +81,7 @@ def main():
     selections_list = list(selection_menu['chosen_menu_entries'])
 
     if 'Scrape urls by keywords list' in selections_list or 'Scrape gigs by urls.csv file' in selections_list:
-        custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/1")
+        custom_web_driver = CustomWebDriver(un_detectable=True, user_data_dir="/Users/ahsanilyas/Documents/FiverrSEO/chrome/fathunus")
         # custom_web_driver = None
         
         if 'Scrape urls by keywords list' in selections_list:

@@ -5,12 +5,6 @@ import ast
 from nltk.tokenize import word_tokenize
 
 
-
-df = pd.read_csv("/Users/ahsanilyas/Documents/FiverrSEO/Data/gigs.csv")
-df = df[df["reviews_count"] > 500]
-# df['technology'] = df['technology'].apply(ast.literal_eval)
-
-
 def check_cosine_similarity(row):
     try:
         description = row['description'].lower()
@@ -71,4 +65,6 @@ def check_exact_title_math(row):
     except Exception as e:
         return {}
     
-df['technology_found'] = df.apply(check_occurance, axis=1)
+def analyze_title_description(gigs_data_frame: pd.DataFrame):
+    # gigs_data_frame['technology'] = gigs_data_frame['technology'].apply(ast.literal_eval)
+    gigs_data_frame['technology_found'] = gigs_data_frame.apply(check_occurance, axis=1)
