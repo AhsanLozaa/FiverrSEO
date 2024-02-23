@@ -71,7 +71,7 @@ class OnlineBot:
             if elem.text.lower() == "switch to Selling" and "seller_dashboard" in elem.get_attribute("href"):
                 self.custom_web_driver.click(web_element=elem, info="Click on switched to selling")
                 self.set_selling_mode(value=True)
-                
+    
     def trigger_online_bot_automation(self):
         self.custom_web_driver.navigate("https://fiverr.com/")
         if not self.is_selling_mode:
