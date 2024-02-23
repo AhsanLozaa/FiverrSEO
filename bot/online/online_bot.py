@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
+from bot.online.dashboard import Dashboard
 from bot.settings.constants import BotConstants
 from bot.online.my_business import MyBusiness
 from bot.online.home_page import HomePage
@@ -14,31 +15,13 @@ class OnlineBot:
     my_business: MyBusiness = field(default_factory=MyBusiness)
     home_page: HomePage = field(default_factory=HomePage)
     account_mode: AccountMode = field(default_factory=AccountMode)
+    dashboard: Dashboard = field(default_factory=Dashboard)
     
     def set_selling_mode(self, value):
         self.is_selling_mode = value
     
     def click_on_dash_board(self) -> bool:
-        print("Clicking on nav dasboard")
-        # Get the dashboard selector from BotConstants
-        dashboard_selector = BotConstants.NAV_DAHBOARD_SELECTOR.value
-
-        # Find all anchor tags with the specified class name
-        nav_anchor_tags = self.custom_web_driver.find_elements_by_class_name(class_name=dashboard_selector.attribute)
-        
-        # Iterate over the anchor tags
-        for tag in nav_anchor_tags:
-            # Check if the text of the tag matches the dashboard value
-            if tag.text.lower() == dashboard_selector.value:
-                print("Clicking on dashboard")
-                try:
-                    # Attempt to click on the tag
-                    self.custom_web_driver.click(web_element=tag, info="dashboard")
-                    return True  # Return True if click is successful
-                except Exception as e:
-                    return  # Return None if click fails
-
-        return False  # Return False if no matching tag is found
+        self.dashboard.click_on_dash_board(custom_web_driver=self.custom_web_driver)
     
     def click_on_site_logo(self) -> bool:
         self.home_page.click_on_site_logo(custom_web_driver=self.custom_web_driver)
@@ -57,7 +40,7 @@ class OnlineBot:
         # 2.) Check if the mode is not in selling mode, if not in selling mode switch to selling mode
         # 3.) 
         self.custom_web_driver.navigate("https://fiverr.com/")
-        if not self.is_selling_mode:
+        if not self.account_mode.mode.value == "buyer":
             self.swith_to_selling()
 
         breakpoint()
