@@ -6,8 +6,14 @@ from scraper.custom_web_driver import CustomWebDriver
 
 @dataclass
 class OnlineBot:
+    
+    is_selling_mode: bool = field(default=False)
     custom_web_driver: CustomWebDriver = field(default_factory=CustomWebDriver)
     my_business: MyBusiness = field(default_factory=MyBusiness)
+    
+    
+    def set_selling_mode(self, value):
+        self.is_selling_mode = value
     
     def click_on_dah_board(self) -> bool:
         print("Clicking on nav dasboard")
@@ -64,6 +70,12 @@ class OnlineBot:
         for elem in elements:
             if elem.text.lower() == "switch to Selling" and "seller_dashboard" in elem.get_attribute("href"):
                 self.custom_web_driver.click(web_element=elem, info="Click on switched to selling")
+                self.set_selling_mode(value=True)
+                
+    def trigger_online_bot_automation(self):
+        self.custom_web_driver.navigate("https://fiverr.com/")
+        if not self.is_selling_mode:
+            self.swith_to_selling()
     
         
     
