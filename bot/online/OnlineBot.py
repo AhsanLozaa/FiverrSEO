@@ -43,7 +43,6 @@ class OnlineBot:
     
     def click_on_profile_photo(self) -> bool:
         print("Clicking on profile photo")
-        
     
     def click_on_profile(self) -> bool:
         if not self.click_on_profile_photo():
