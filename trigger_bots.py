@@ -1,5 +1,5 @@
 from utils import custom_print, bg_colors
-from bot.online.OnlineBot import OnlineBot
+from bot.online.online_bot import OnlineBot
 from scraper.custom_web_driver import CustomWebDriver
 
 def main():

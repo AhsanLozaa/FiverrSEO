@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from bot.settings.constants import BotConstants
-from bot.online.MyBusiness import MyBusiness
+from bot.online.my_business import MyBusiness
 from scraper.custom_web_driver import CustomWebDriver
 
 @dataclass
@@ -15,7 +15,7 @@ class OnlineBot:
     def set_selling_mode(self, value):
         self.is_selling_mode = value
     
-    def click_on_dah_board(self) -> bool:
+    def click_on_dash_board(self) -> bool:
         print("Clicking on nav dasboard")
         # Get the dashboard selector from BotConstants
         dashboard_selector = BotConstants.NAV_DAHBOARD_SELECTOR.value
@@ -68,14 +68,18 @@ class OnlineBot:
     def swith_to_selling(self):
         elements = self.custom_web_driver.find_elements_by_class_name("nav-link, nav-link-green")
         for elem in elements:
-            if elem.text.lower() == "switch to Selling" and "seller_dashboard" in elem.get_attribute("href"):
+            if elem.text.lower() == "switch to selling" and "seller_dashboard" in elem.get_attribute("href"):
                 self.custom_web_driver.click(web_element=elem, info="Click on switched to selling")
                 self.set_selling_mode(value=True)
     
     def trigger_online_bot_automation(self):
+        # 1.) Navigate to the fiverr.com url
+        # 2.) Check if the mode is not in selling mode, if not in selling mode switch to selling mode
+        # 3.) 
         self.custom_web_driver.navigate("https://fiverr.com/")
         if not self.is_selling_mode:
             self.swith_to_selling()
-    
+
+        breakpoint()
         
     

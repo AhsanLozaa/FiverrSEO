@@ -249,6 +249,18 @@ class CustomWebDriver:
     #             custom_print(f'Scrolling window (try->{i}/{try_scroll_for})', bg_colors.OKBLUE)
     #             driver.execute_script("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'end' });", web_element)
     #             random_sleep(2, 3)
+    
+    def find_and_click_by_text(self, class_name, text, info):
+        elements = self.find_elements_by_class_name(class_name=class_name)
+        for elem in elements:
+            try:
+                if elem.text.lower() == text.lower():
+                    self.click(web_element=elem, info=info)
+                    return True
+            except Exception as e:
+                continue
+
+        return False
                 
                 
     def __post_init__(self):
