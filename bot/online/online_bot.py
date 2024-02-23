@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from bot.settings.constants import BotConstants
 from bot.online.my_business import MyBusiness
+from bot.online.home_page import HomePage
+from bot.online.account_mode import AccountMode
 from scraper.custom_web_driver import CustomWebDriver
 
 @dataclass
@@ -10,7 +12,8 @@ class OnlineBot:
     is_selling_mode: bool = field(default=False)
     custom_web_driver: CustomWebDriver = field(default_factory=CustomWebDriver)
     my_business: MyBusiness = field(default_factory=MyBusiness)
-    
+    home_page: HomePage = field(default_factory=HomePage)
+    account_mode: AccountMode = field(default_factory=AccountMode)
     
     def set_selling_mode(self, value):
         self.is_selling_mode = value
@@ -38,26 +41,7 @@ class OnlineBot:
         return False  # Return False if no matching tag is found
     
     def click_on_site_logo(self) -> bool:
-        print("Clicking Site Logo")
-        try:
-            site_logo_web_element = self.custom_web_driver.find_element_by_class_name(class_name=BotConstants.SITE_LOGO_CLASS_NAME)
-            self.custom_web_driver.click(web_element=site_logo_web_element, info="site logo")
-            print("Succesfully clicked on the site logo")
-            return True
-        except Exception as e:
-            print("Failed to click on the site logo")
-            return False
-        
-    
-    """ Profile Section """
-    def click_on_profile_photo(self) -> bool:
-        print("Clicking on profile photo")
-    
-    def click_on_profile(self) -> bool:
-        if not self.click_on_profile_photo():
-            # If clicking on the profile photo fails, return False
-            return False
-        print("Clicking on profile")
+        self.home_page.click_on_site_logo(custom_web_driver=self.custom_web_driver)
         
     def click_on_my_business(self):
         self.my_business.click_on_my_business(custom_web_driver=self.custom_web_driver)
@@ -66,11 +50,7 @@ class OnlineBot:
         self.my_business.click_on_profile(custom_web_driver=self.custom_web_driver)
         
     def swith_to_selling(self):
-        elements = self.custom_web_driver.find_elements_by_class_name("nav-link, nav-link-green")
-        for elem in elements:
-            if elem.text.lower() == "switch to selling" and "seller_dashboard" in elem.get_attribute("href"):
-                self.custom_web_driver.click(web_element=elem, info="Click on switched to selling")
-                self.set_selling_mode(value=True)
+        self.account_mode.switch_to_selling_mode(custom_web_driver=self.custom_web_driver)
     
     def trigger_online_bot_automation(self):
         # 1.) Navigate to the fiverr.com url
