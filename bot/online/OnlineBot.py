@@ -41,6 +41,7 @@ class OnlineBot:
             return False
         
     
+    """ Profile Section """
     def click_on_profile_photo(self) -> bool:
         print("Clicking on profile photo")
     
@@ -49,4 +50,7 @@ class OnlineBot:
             # If clicking on the profile photo fails, return False
             return False
         print("Clicking on profile")
-        
+    
+    """ My Business Section """
+    def click_on_my_business(self) -> bool:
+        print("Clicking on my business section")
