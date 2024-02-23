@@ -39,10 +39,13 @@ class CustomWebDriver:
     user_data_dir: str = field(default="")
     
     
-    def click(self, web_element: WebElement, info: str = ""):
+    def click(self, web_element: WebElement, info: str = "", idle: int = 0):
         if (info != ""):
             print(f"Executing click -> {info}")
         web_element.click()
+        
+        if idle > 0:
+            custom_sleep_func_3(message=f"Idle after clicking -> {info}", time_in_seconds=idle)
                 
     
     def handle_exception(self, locator: str, locator_type: str, exception: Exception) -> None:

@@ -53,4 +53,17 @@ class OnlineBot:
             return False
         print("Clicking on profile")
         
+    def click_on_my_business(self):
+        self.my_business.click_on_my_business(custom_web_driver=self.custom_web_driver)
+    
+    def click_on_profile_from_business(self):
+        self.my_business.click_on_profile(custom_web_driver=self.custom_web_driver)
+        
+    def swith_to_selling(self):
+        elements = self.custom_web_driver.find_elements_by_class_name("nav-link, nav-link-green")
+        for elem in elements:
+            if elem.text.lower() == "switch to Selling" and "seller_dashboard" in elem.get_attribute("href"):
+                self.custom_web_driver.click(web_element=elem, info="Click on switched to selling")
+    
+        
     
