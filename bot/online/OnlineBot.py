@@ -51,8 +51,3 @@ class OnlineBot:
             return False
         print("Clicking on profile")
     
-    """ My Business Section """
-    def click_on_my_business(self) -> bool:
-        print("Clicking on my business section")
-        
-    # def click_on_my
