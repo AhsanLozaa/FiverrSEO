@@ -1,5 +1,12 @@
+from dataclasses import dataclass
 from enum import Enum
 
+@dataclass
+class Selector:
+    attribute: str
+    value: str
+
+    
 class BotConstants(Enum):
-    NAV_DASH_BOARD_ANCHOR_TAG = "seller-main-item"
-    NAV_DASH_BOARD_ANCHOR_TAG_TEXT = "dashboard"
+    NAV_DAHBOARD_SELECTOR = Selector(attribute="seller-main-item", value="dashboard")
+    SITE_LOGO_CLASS_NAME = "site-logo"

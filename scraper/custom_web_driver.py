@@ -38,6 +38,13 @@ class CustomWebDriver:
     un_detectable: bool = field(default=False)
     user_data_dir: str = field(default="")
     
+    
+    def click(self, web_element: WebElement, info: str = ""):
+        if (info != ""):
+            print(f"Executing click -> {info}")
+        web_element.click()
+                
+    
     def handle_exception(self, locator: str, locator_type: str, exception: Exception) -> None:
         print(f"Element with {locator_type} '{locator}' not found or not interactable: {exception}")
 
