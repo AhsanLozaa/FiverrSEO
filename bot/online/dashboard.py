@@ -4,11 +4,23 @@ from scraper.custom_web_driver import CustomWebDriver
 
 @dataclass
 class Dashboard:
-    
+    """
+    Class representing the dashboard of the bot.
+    """
+
     def click_on_dash_board(self, custom_web_driver: CustomWebDriver) -> bool:
-        print("Clicking on nav dasboard")
+        """
+        Clicks on the dashboard link in the navigation bar.
+        
+        Args:
+        - custom_web_driver: CustomWebDriver instance
+        
+        Returns:
+        - bool: True if the click is successful, False otherwise
+        """
+        print("Clicking on nav dashboard")
         # Get the dashboard selector from BotConstants
-        dashboard_selector = BotConstants.NAV_DAHBOARD_SELECTOR.value
+        dashboard_selector = BotConstants.NAV_DASHBOARD_SELECTOR.value
 
         # Find all anchor tags with the specified class name
         nav_anchor_tags = custom_web_driver.find_elements_by_class_name(class_name=dashboard_selector.attribute)
@@ -23,6 +35,6 @@ class Dashboard:
                     custom_web_driver.click(web_element=tag, info="dashboard")
                     return True  # Return True if click is successful
                 except Exception as e:
-                    return  # Return None if click fails
+                    return False  # Return False if click fails
 
         return False  # Return False if no matching tag is found
